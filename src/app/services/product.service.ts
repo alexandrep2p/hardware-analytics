@@ -23,8 +23,22 @@ export class ProductService {
       catchError(this.handleError));
   }
 
-  getProductFromSeller(): Observable<Product[]>{
-    return this.httpClient.get<Product[]>(this.testUrl)
+  getProduct(name: string, seller: string): Observable<Product[]>{
+    return this.httpClient.get<Product[]>(this.baseUrl + '/product/productfromseller/' + name + '//' + seller)
+    .pipe(
+      retry(2),
+      catchError(this.handleError));
+  }
+
+  getProductsFromSeller(seller: string): Observable<any[]>{
+    return this.httpClient.get<any[]>(this.baseUrl + '/product/seller/' + seller)
+    .pipe(
+      retry(2),
+      catchError(this.handleError));
+  }
+
+  getSellers(): Observable<any[]>{
+    return this.httpClient.get<any[]>(this.baseUrl + '/sellers')
     .pipe(
       retry(2),
       catchError(this.handleError));

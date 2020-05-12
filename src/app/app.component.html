@@ -1,6 +1,28 @@
 <div class="container">
+    <div class="row my-3">
+        <div class="col-4">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownSeller" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  {{selectedSeller}}
+            </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownSeller">
+                    <button *ngFor="let seller of sellers" class="dropdown-item" type="button" (click)="selectSeller(seller)">{{seller}}</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownProduct" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              {{selectedProduct}}
+            </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownProduct">
+                    <button class="dropdown-item" type="button" (click)="selectProduct('DDR')">Terabyte</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row">
-        <div class="col-12">
+        <div class="col">
             <canvas baseChart [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions" [legend]="lineChartLegend" [chartType]="lineChartType" [plugins]="lineChartPlugins">
             </canvas>
         </div>

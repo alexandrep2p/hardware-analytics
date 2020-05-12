@@ -14,6 +14,9 @@ export class AppComponent implements OnInit {
 
   productPrices: Array<number> = [];
   productDates: Array<any> = [];
+  sellers: string[] = [];
+  selectedSeller: string = 'Vendedor';
+  selectedProduct: string = 'Selecione um vendedor';
 
   public lineChartData: ChartDataSets[] = [
     { data: this.productPrices, yAxisID: 'y-axis-1' }
@@ -44,20 +47,43 @@ export class AppComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getProductFromSeller();
+    //this.getProductFromSeller();
+    this.getSellers();
   }
 
-  getProductFromSeller(){
-    this.productService.getProductFromSeller()
+  selectSeller(seller: string){
+    this.selectedSeller = seller;
+    this.getProductsFromSeller(seller);
+  }
+
+  selectProduct(product: string){
+    this.selectedProduct = product;
+  }
+
+  getProduct(name: string, seller: string){
+    this.productService.getProduct(name , seller)
     .subscribe( product => {
       product.forEach(item => {
         this.productPrices.push(item.price);
         this.productDates.push(item.createdAt);
       });
-      console.log(this.productPrices);
-      console.log(this.productDates);
     });
+  }
 
+  getSellers(){
+    this.productService.getSellers()
+    .subscribe(result => {
+      result.forEach(seller => {
+        this.sellers.push(seller.DISTINCT);
+      });
+    });
+  }
+
+  getProductsFromSeller(seller: string){
+    this.productService.getProductsFromSeller(seller)
+    .subscribe(product => {
+      console.log(product);
+    });
   }
 
 }
