@@ -10,28 +10,20 @@ import { Product } from '../models/product';
 export class ProductService {
 
   baseUrl = 'http://localhost:3000';
-  testUrl = 'http://localhost:3000/product/productfromseller/CMK8GX4M1A2666C16/Pichau';
 
   constructor(
     private httpClient: HttpClient
   ) { }
 
-  getAllProducts(): Observable<any[]>{
-    return this.httpClient.get<any[]>(this.baseUrl + '/products')
-    .pipe(
-      retry(2),
-      catchError(this.handleError));
-  }
-
-  getProduct(name: string, seller: string): Observable<Product[]>{
-    return this.httpClient.get<Product[]>(this.baseUrl + '/product/productfromseller/' + name + '//' + seller)
+  getProductData(name: string, seller: string): Observable<Product[]>{
+    return this.httpClient.get<Product[]>(this.baseUrl + '/product/productfromseller/' + name + '/' + seller)
     .pipe(
       retry(2),
       catchError(this.handleError));
   }
 
   getProductsFromSeller(seller: string): Observable<any[]>{
-    return this.httpClient.get<any[]>(this.baseUrl + '/product/seller/' + seller)
+    return this.httpClient.get<any[]>(this.baseUrl + '/products/seller/' + seller)
     .pipe(
       retry(2),
       catchError(this.handleError));
