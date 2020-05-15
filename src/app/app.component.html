@@ -1,36 +1,55 @@
 <div class="container">
     <div class="row my-3">
         <div class="col">
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownSeller" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  {{selectedSeller}}
-            </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownSeller">
-                    <button *ngFor="let seller of sellers" class="dropdown-item" type="button" (click)="selectSeller(seller)">{{seller}}</button>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputSeller">Vendedor</label>
                 </div>
+                <select class="custom-select" id="inputSeller" (change)="selectSeller($event.target.value)">
+                  <option selected>Selecione..</option>
+                  <option *ngFor="let seller of sellers" [value]="seller">{{seller}}</option>
+                </select>
             </div>
         </div>
     </div>
-    <div class="row my-3">
+    <div *ngIf="products.length > 1" class="row my-3">
         <div class="col">
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownProduct" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              {{selectedProduct}}
-            </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownProduct">
-                    <button *ngFor="let product of products" class="dropdown-item" type="button" (click)="selectProduct(product.name)">{{product.name}}</button>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputProduct">Produto</label>
                 </div>
+                <select class="custom-select" id="inputProduct" (click)="selectProduct($event.target.value)">
+                  <option selected>Selecione..</option>
+                  <option *ngFor="let product of products" [value]="product.name">{{product.name}}</option>
+                </select>
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-8">
+        <div class="col col-lg-8 col-sm-12">
             <canvas #productChart></canvas>
         </div>
-        <div class="col-4 align-self-center">
+        <div class="col col-lg-4 col-sm-12 mt-5 align-self-center text-center" *ngIf="actualPrice">
             <span>{{selectedProduct}}</span><br><br>
-            <span>Preço Hoje: R$ </span>
-            <span><b>{{actualPrice}}</b></span>
+            <span *ngIf="maxPrice === minPrice; else differentPrices">
+          <span><i class="fas fa-infinity"></i> Preço estabilizado no período: </span>
+            <span>R$ {{maxPrice}}</span><br><br>
+            </span>
+            <ng-template #differentPrices>
+                <span class="maxPrice"><i class="fas fa-arrow-up"></i> Max. R$ {{maxPrice}}</span><br>
+                <span class="minPrice"><i class="fas fa-arrow-down"></i> Min. R$ {{minPrice}}</span><br>
+                <span><i class="fas fa-wave-square"></i> Desvio Padrão: </span>
+                <span>R$ {{deviation | number:'1.2-2'}}</span><br><br>
+            </ng-template>
+            <span>Preço Hoje: </span>
+            <span class="actualPrice"><b>R$ {{actualPrice}}</b></span><br>
         </div>
+    </div>
+    <div class="footer text-center">
+        <span class="text-footer">
+          <a href="https://github.com/alexandrep2p" target="_blank">
+            Feito com o <i class="fas fa-heart"></i> por Alexandre <i class="fab fa-github"></i>
+          </a>
+        </span>
     </div>
 </div>
