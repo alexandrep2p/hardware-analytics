@@ -1,7 +1,9 @@
 import { ProductService } from './services/product.service';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import * as moment from 'moment';
 import * as Chart from 'chart.js';
+import { identifierModuleUrl } from '@angular/compiler';
 
 @Component({
   selector: 'app-root',
@@ -16,14 +18,16 @@ export class AppComponent implements OnInit {
   productDates: Array<any> = [];
   sellers: string[] = [];
   products: any[] = [];
+  produtos: any[] = [];
   selectedSeller = 'Vendedor';
-  selectedProduct = 'Selecione um produto';
+  selectedProduct: any;
   maxPrice;
   minPrice;
   actualPrice;
+  dropdownSettings: IDropdownSettings;
   chart: Chart;
   deviation: number;
-
+  
   constructor(
     private productService: ProductService
   ) {
@@ -31,6 +35,15 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.getSellers();
+
+    this.dropdownSettings = {
+      singleSelection: true,
+      idField: 'id',
+      textField: 'name',
+      allowSearchFilter: true,
+      itemsShowLimit: 5,
+      closeDropDownOnSelection:true
+    }    
   }
 
   getSellers() {
@@ -49,17 +62,24 @@ export class AppComponent implements OnInit {
   }
 
   getProductsFromSeller(seller: string) {
+    let productId: number = 0;
+    let productObject: any;
     this.productService.getProductsFromSeller(seller)
-      .subscribe(product => {
-        this.products = product;
+      .subscribe(productList => {
+        productList.forEach(product => {
+          this.products.push(
+            productObject = {
+            id: productId++,
+            name: product.name
+          });
+        });
       });
   }
 
-  selectProduct(product: string) {
-    this.selectedProduct = product;
+  selectProduct() {
     this.productPrices = [];
     this.productDates = [];
-    this.getProduct(this.selectedProduct, this.selectedSeller);
+    this.getProduct(this.selectedProduct[0].name, this.selectedSeller);
   }
 
   getProduct(name: string, seller: string) {
@@ -78,7 +98,7 @@ export class AppComponent implements OnInit {
           total + Math.pow(average - value, 2) / this.productPrices.length, 0);
         this.deviation = Math.sqrt(variance);
 
-        this.plotChart(this.productPrices, this.productDates, this.selectedProduct);
+        this.plotChart(this.productPrices, this.productDates, this.selectedProduct[0].name);
       });
   }
 

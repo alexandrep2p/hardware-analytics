@@ -6,7 +6,7 @@
                     <label class="input-group-text" for="inputSeller">Vendedor</label>
                 </div>
                 <select class="custom-select" id="inputSeller" (change)="selectSeller($event.target.value)">
-                  <option selected>Selecione..</option>
+                  <option selected>Selecione...</option>
                   <option *ngFor="let seller of sellers" [value]="seller">{{seller}}</option>
                 </select>
             </div>
@@ -14,15 +14,13 @@
     </div>
     <div *ngIf="products.length > 1" class="row my-3">
         <div class="col">
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <label class="input-group-text" for="inputProduct">Produto</label>
-                </div>
-                <select class="custom-select" id="inputProduct" (click)="selectProduct($event.target.value)">
-                  <option selected>Selecione..</option>
-                  <option *ngFor="let product of products" [value]="product.name">{{product.name}}</option>
-                </select>
-            </div>
+            <ng-multiselect-dropdown
+            [placeholder]="'Selecione'"
+            [settings]="dropdownSettings"
+            [data]="products"
+            [(ngModel)]="selectedProduct"
+            (onDropDownClose)="selectProduct()">
+        </ng-multiselect-dropdown>
         </div>
     </div>
     <div class="row">
@@ -30,7 +28,7 @@
             <canvas #productChart></canvas>
         </div>
         <div class="col col-lg-4 col-sm-12 mt-5 align-self-center text-center" *ngIf="actualPrice">
-            <span>{{selectedProduct}}</span><br><br>
+            <span>{{selectedProduct[0].name}}</span><br><br>
             <span *ngIf="maxPrice === minPrice; else differentPrices">
           <span><i class="fas fa-infinity"></i> Preço estabilizado no período: </span>
             <span>R$ {{maxPrice}}</span><br><br>
