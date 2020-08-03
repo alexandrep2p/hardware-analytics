@@ -1,0 +1,9 @@
+<div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <label class="input-group-text" for="sellerComponent">Selecione a Loja</label>
+    </div>
+    <select class="custom-select" id="sellerComponent">
+      <option selected>Escolha...</option>
+      <option *ngFor='let seller of sellers'>{{seller.DISTINCT}}</option>
+    </select>
+  </div>
