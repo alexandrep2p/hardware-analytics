@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { environment } from './../../environments/environment';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, ObservableLike } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
-import { Seller } from '../models/seller';
+import { Store } from '../models/store';
+import { Product } from '../models/product';
 
 @Injectable({
   providedIn: 'root'
@@ -16,11 +17,18 @@ export class ApiService {
     private httpClient: HttpClient
   ) { }
 
-  getAllSellers(): Observable<Seller[]>{
-    return this.httpClient.get<Seller[]>(this.baseUrl+'sellers')
+  getAllStores(): Observable<Store[]>{
+    return this.httpClient.get<Store[]>(this.baseUrl+'sellers')
     .pipe(
       retry(2),
-      catchError(this.handleError))
+      catchError(this.handleError));
+  }
+
+  getProductsFromSeller(storeName: string): Observable<Product[]>{
+    return this.httpClient.get<Product[]>(this.baseUrl+'products/seller/'+storeName)
+    .pipe(
+      retry(2),
+      catchError(this.handleError));
   }
 
   handleError(error: HttpErrorResponse) {

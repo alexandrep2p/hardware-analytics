@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ApiService } from './../services/api.service';
-import { Seller } from '../models/seller';
+import { Store } from '../models/store';
 
 @Component({
   selector: 'app-select-store',
@@ -9,16 +9,23 @@ import { Seller } from '../models/seller';
 })
 export class SelectStoreComponent implements OnInit {
 
-  sellers: Seller[];
+  @Output() EventEmitterStore = new EventEmitter();
+
+  stores: Store[];
+  storeSelected: string;
 
   constructor(
     private apiService: ApiService
   ) { }
 
   ngOnInit(): void {
-    this.apiService.getAllSellers().subscribe((sellers: Seller[])=>{
-      this.sellers = sellers;
+    this.apiService.getAllStores().subscribe((stores: Store[])=>{
+      this.stores = stores;
     });
   }
 
+  selectStore(e){
+    this.storeSelected = e.target.value;
+    this.EventEmitterStore.emit(this.storeSelected);
+  }
 }
