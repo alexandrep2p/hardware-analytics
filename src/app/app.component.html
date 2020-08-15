@@ -9,9 +9,9 @@
       <app-select-store (EventEmitterStore)="receiveStore($event)"></app-select-store>
     </div>
   </div>
-  <div class="row">
+  <div class="row" *ngIf="products.length > 0">
     <div class="col-12">
-      <app-select-product></app-select-product>
+      <app-select-product [dataList]="products"></app-select-product>
     </div>
   </div>
   <div class="row">
