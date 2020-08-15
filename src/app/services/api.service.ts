@@ -5,6 +5,7 @@ import { Observable, throwError, ObservableLike } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 import { Store } from '../models/store';
 import { Product } from '../models/product';
+import { ProductFromSeller } from '../models/productFromSeller';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +27,13 @@ export class ApiService {
 
   getProductsFromSeller(storeName: string): Observable<Product[]>{
     return this.httpClient.get<Product[]>(this.baseUrl+'products/seller/'+storeName)
+    .pipe(
+      retry(2),
+      catchError(this.handleError));
+  }
+
+  getProductDataFromSeller(storeName:string, productName:string): Observable<ProductFromSeller[]>{
+    return this.httpClient.get<ProductFromSeller[]>(this.baseUrl+'product/productfromseller/'+productName+'/'+storeName)
     .pipe(
       retry(2),
       catchError(this.handleError));

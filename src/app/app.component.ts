@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ApiService } from './services/api.service';
 import { Product } from './models/product';
+import { ProductFromSeller } from './models/productFromSeller';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,8 @@ export class AppComponent {
   isProductsListReceived: boolean = false;
   productId: number = 0;
   products: Product[] = [];
+  productData: ProductFromSeller[] = [];
+  selectedStore: string;
 
   constructor(
     private apiService: ApiService
@@ -24,6 +27,7 @@ export class AppComponent {
   }
 
   getProducts(storeName){
+    this.selectedStore = storeName;
     this.products = [];
     let productObject: Product;
     this.apiService.getProductsFromSeller(storeName).subscribe((products : Product[]) => {
@@ -34,6 +38,13 @@ export class AppComponent {
             name:product.name
           });
       });
+    });
+  }
+
+  receivedProduct(productName){
+    this.productData = [];
+    this.apiService.getProductDataFromSeller(this.selectedStore, productName).subscribe((productData : ProductFromSeller[]) =>{
+      this.productData = productData;
     });
   }
 }

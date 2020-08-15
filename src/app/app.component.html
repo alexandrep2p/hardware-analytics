@@ -6,20 +6,27 @@
   </div>
   <div class="row">
     <div class="col-12">
-      <app-select-store (EventEmitterStore)="receiveStore($event)"></app-select-store>
+      <app-select-store 
+        (EventEmitterStore)="receiveStore($event)">
+      </app-select-store>
     </div>
   </div>
   <div class="row" *ngIf="products.length > 0">
     <div class="col-12">
-      <app-select-product [dataList]="products"></app-select-product>
+      <app-select-product 
+        [dataList]="products"
+        (EventEmitterSelectedProduct)="receivedProduct($event)">
+      </app-select-product>
     </div>
   </div>
-  <div class="row">
+  <div class="row" *ngIf="productData.length > 0">
     <div class="col-8">
       <app-chart></app-chart>
     </div>
     <div class="col-4">
-      <app-infos></app-infos>
+      <app-infos
+        [productData]="productData">
+      </app-infos>
     </div>
   </div>
 </div>

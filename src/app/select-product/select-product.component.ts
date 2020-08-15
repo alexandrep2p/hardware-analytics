@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { Product } from './../models/product';
 
@@ -10,6 +10,8 @@ import { Product } from './../models/product';
 export class SelectProductComponent implements OnInit{
   
   @Input() dataList: Product[] = [];
+  @Output() EventEmitterSelectedProduct = new EventEmitter();
+
   dropdownSettings: IDropdownSettings;
   
   constructor(
@@ -24,5 +26,9 @@ export class SelectProductComponent implements OnInit{
       itemsShowLimit: 5,
       closeDropDownOnSelection: true
     }
+  }
+
+  selectedProduct(product){
+    this.EventEmitterSelectedProduct.emit(product.name);
   }
 }

@@ -1,5 +1,7 @@
 <ng-multiselect-dropdown
 [placeholder]="'Selecione...'"
 [settings]="dropdownSettings"
-[data]="dataList">
+[data]="dataList"
+(onSelect)="selectedProduct($event)"
+>
 </ng-multiselect-dropdown>
