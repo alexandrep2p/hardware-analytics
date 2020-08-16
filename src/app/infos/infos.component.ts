@@ -33,6 +33,6 @@ export class InfosComponent implements OnInit {
     this.lastPrice = productPrices.slice(-1)[0];
     this.lastDate = productDates.slice(-1)[0];
     moment.locale('pt-br');
-    this.lastDateText = moment(this.lastDate).format("dddd, DD MMMM YYYY");
+    this.lastDateText = moment(this.lastDate).format('LLLL');
   }
 }

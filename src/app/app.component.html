@@ -21,7 +21,9 @@
   </div>
   <div class="row" *ngIf="productData.length > 0">
     <div class="col-8">
-      <app-chart></app-chart>
+      <app-chart
+        [productData]="productData"
+      ></app-chart>
     </div>
     <div class="col-4">
       <app-infos
