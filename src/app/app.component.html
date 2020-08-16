@@ -4,14 +4,14 @@
       {{title}},{{subtitle}}
     </div>
   </div>
-  <div class="row">
+  <div class="row mt-3">
     <div class="col-12">
       <app-select-store 
         (EventEmitterStore)="receiveStore($event)">
       </app-select-store>
     </div>
   </div>
-  <div class="row" *ngIf="products.length > 0">
+  <div class="row mt-3" *ngIf="products.length > 0">
     <div class="col-12">
       <app-select-product 
         [dataList]="products"
@@ -19,13 +19,13 @@
       </app-select-product>
     </div>
   </div>
-  <div class="row" *ngIf="productData.length > 0">
+  <div class="row mt-5 purple-border" *ngIf="productData.length > 0">
     <div class="col-8">
       <app-chart
         [productData]="productData"
       ></app-chart>
     </div>
-    <div class="col-4">
+    <div class="col-4 align-self-center">
       <app-infos
         [productData]="productData">
       </app-infos>
